@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Bullets/Bullet.cs" type="Script" id=1]
+[ext_resource path="res://Effects/Explosion.tscn" type="PackedScene" id=2]
+
+[node name="Bullet" type="Area2D"]
+script = ExtResource( 1 )
+Lifetime = -1.0
+
+[node name="Sprite" type="Sprite" parent="."]
+region_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Lifetime" type="Timer" parent="."]
+
+[node name="Explosion" parent="." instance=ExtResource( 2 )]
+visible = false
+scale = Vector2( 0.5, 0.5 )

@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/onlyObjects_retina_rotated.png" type="Texture" id=1]
+[ext_resource path="res://Tanks/Tank.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Tanks/EnemyTank.cs" type="Script" id=3]
+[ext_resource path="res://Bullets/EnemyBullet.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/UnitDisplay.tscn" type="PackedScene" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 15.7764, 20.1062 )
+
+[node name="EnemyTank" instance=ExtResource( 2 )]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource( 3 )
+Bullet = ExtResource( 4 )
+MaxSpeed = 150
+RotationSpeed = 1.0
+GunCooldown = 0.5
+TurretSpeed = 1.0
+DetectRadius = 200
+
+[node name="Body" parent="." index="0"]
+texture = ExtResource( 1 )
+region_rect = Rect2( 268, 186, 80, 75 )
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource( 1 )
+
+[node name="Turret" parent="." index="2"]
+texture = ExtResource( 1 )
+offset = Vector2( 25, 0 )
+region_rect = Rect2( 371, 14, 60, 24 )
+
+[node name="Muzzle" parent="Turret" index="0"]
+position = Vector2( 60, 0 )
+
+[node name="Flash" parent="Turret" index="1"]
+position = Vector2( 60, 0 )
+texture = ExtResource( 1 )
+offset = Vector2( 20, 0 )
+region_rect = Rect2( 644, 94, 49, 40 )
+
+[node name="DetectRadius" type="Area2D" parent="." index="4"]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius" index="0"]
+
+[node name="LookAhead1" type="RayCast2D" parent="." index="5"]
+position = Vector2( 0, 30 )
+rotation = 0.193315
+enabled = true
+cast_to = Vector2( 100, 0 )
+collision_mask = 7
+
+[node name="LookAhead2" type="RayCast2D" parent="." index="6"]
+position = Vector2( 0, -30 )
+rotation = -0.209482
+enabled = true
+cast_to = Vector2( 100, 0 )
+collision_mask = 7
+
+[node name="UnitDisplay" parent="." index="7" instance=ExtResource( 5 )]
+
+[node name="Explosion" parent="." index="9"]
+scale = Vector2( 1.5, 1.5 )
+[connection signal="HealthChanged" from="." to="UnitDisplay" method="UpdateHealthBar"]
